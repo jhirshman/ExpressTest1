@@ -1,5 +1,8 @@
+console.log("hello");
+
 var express = require('express'),
-    app = express.createServer();
+    app = express.createServer(),
+    users = require('./models/userModel');
     
 
 app.configure(function(){
@@ -20,13 +23,26 @@ app.get('/', function (req, res) {
 });
 
 app.post('/submit', function (req, res) {
-    res.render('submit', {
-        title: "Submit",
-        text: req.body.text
-    });
-    //res.send("hello world");
+    users.insertIntoDB(req.body.username, req.body.info, function() {res.redirect('/'); });
 });
 
+app.get('/information', function (req, res) {
+    users.getUsers(res, function(response, userArry) {
+        response.render('information', {
+            title: "Users",
+            userArray: userArry
+        });
+    });
+});
+
+app.get('/users/:id', function (req, res) {
+    users.getInfo(req.params.id, res, function(response, user, informationArray) {
+        response.render('userPage', {
+            title: user,
+            infoArray: informationArray
+        });
+    });
+});
 
 app.listen(3000);
 console.log("Started");

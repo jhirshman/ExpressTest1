@@ -2,6 +2,12 @@ h1
     |Basic Form
     
 form(name="input", action="/submit", method = "post")
-    |Input Text
-    input(type="text", name="text")
-    input(type="submit")
+    p Input username
+    input(type="text", name="username")
+    p Input information to be associated with the username
+    input(type="text", name="info")
+    p
+    input(type="submit", value="Submit Information")
+
+p 
+    a(href="/information") Click Here for Information on our Users
